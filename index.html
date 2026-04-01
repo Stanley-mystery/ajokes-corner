@@ -92,7 +92,7 @@
     <div class="site-shell home-main-shell">
       <main id="main-content">
         <section class="content-grid home-content-full">
-          <article class="info-panel">
+          <article class="info-panel reveal">
             <p class="eyebrow">Owner Profile</p>
             <h2>About Tomilade Adebari</h2>
             <p>
@@ -118,7 +118,7 @@
           </article>
 
           <aside
-            class="section-two-image-panel"
+            class="section-two-image-panel reveal"
             aria-label="Photo gallery of Tomilade Adebari"
           >
             <div class="section-two-image-gallery">
@@ -197,12 +197,12 @@
         </section>
 
         <section class="story-section blueprint-section section-bg" id="about-story">
-          <div class="section-heading section-title">
+          <div class="section-heading section-title reveal">
             <p class="eyebrow">About Her</p>
             <h2>A Calling in Medicine</h2>
           </div>
 
-          <article class="story-card">
+          <article class="story-card reveal">
             <p>
               My passion for medicine began at the age of five, when my father&mdash;God bless
               his sweet memory&mdash;was diagnosed with kidney failure. What followed was a
@@ -364,6 +364,25 @@
         },
         { passive: true },
       );
+
+      // Scroll-reveal
+      const reveals = [...document.querySelectorAll(".reveal")];
+      if (!prefersReducedMotion && "IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.12 },
+        );
+        reveals.forEach((el) => io.observe(el));
+      } else {
+        reveals.forEach((el) => el.classList.add("is-visible"));
+      }
 
       const galleryItems = galleryTriggers.map((trigger) => {
         const image = trigger.querySelector(".section-two-image");
